@@ -1,8 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
 const User = require('../models/user');
-
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -25,7 +23,7 @@ passport.use('local-signup', new LocalStrategy({
     const newUser = new User();
     newUser.email = email;
     newUser.password = newUser.encryptPassword(password);
-  console.log(newUser)
+    console.log(newUser)
     await newUser.save();
     done(null, newUser);
   }
@@ -45,3 +43,4 @@ passport.use('local-signin', new LocalStrategy({
   }
   return done(null, user);
 }));
+//return done(null, false, req.flash('signinMessage', 'No User Found'));
