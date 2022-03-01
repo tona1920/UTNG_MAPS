@@ -2,7 +2,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 const { body,validationResult } = require('express-validator');
-const alert = false;
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -21,8 +20,7 @@ passport.use('local-signup', new LocalStrategy({
   const user = await User.findOne({'email': email})
   console.log(user)
   if(user) {
-    alert = true;
-    return done(null, false, req.flash('signupMessage', 'The Email is already Taken.'),alert);
+    return done(null, false, req.flash('signupMessage', 'The Email is already Taken.'));
   } else {
     const pass = req.body.pass;
     if(password==pass){
@@ -32,8 +30,12 @@ passport.use('local-signup', new LocalStrategy({
       newUser.username = req.body.username;
       newUser.password = newUser.encryptPassword(password);
       console.log(newUser)
-      await newUser.save();
-      done(null, newUser);
+      if(newUser.username.length >0){
+        await newUser.save();
+        done(null, newUser);
+      }else{
+        return done(null, false, req.flash('signupMessage', 'The username is incorrect.'));
+      }
     }else{
       return done(null, false, req.flash('signupMessage', 'The password is incorrect.'));
     } 
@@ -52,7 +54,6 @@ passport.use('local-signin', new LocalStrategy({
   if(!user.comparePassword(password)) {
     return done(null, false, req.flash('signinMessage', 'Incorrect Password'));
   }
-  user.password= user.encryptPassword(password);
   return done(null, user);
 }));
 //return done(null, false, req.flash('signinMessage', 'No User Found'));

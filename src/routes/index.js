@@ -10,7 +10,7 @@ router.get('/signup', (req, res, next) => {
 });
 
 router.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/profile',
+  successRedirect: '/home',
   failureRedirect: '/signup',
   failureFlash: true
 })); 
@@ -21,10 +21,14 @@ router.get('/signin', (req, res, next) => {
 
 
 router.post('/signin', passport.authenticate('local-signin', {
-  successRedirect: '/profile',
+  successRedirect: '/home',
   failureRedirect: '/signin',
   failureFlash: true
 }));
+
+router.get('/home',isAuthenticated, (req, res, next) => {
+  res.render('home');
+});
 
 router.get('/profile',isAuthenticated, (req, res, next) => {
   res.render('profile');

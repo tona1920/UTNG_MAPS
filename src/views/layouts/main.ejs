@@ -2,43 +2,57 @@
 <% if (!user) { %>
   <div class="row">
     <div class="col">
-      <ul class="navbar justify-content-end navbar-dark bg-dark">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">UTNG MAPS</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/signin">Signin</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/signup">Signup</a>
-        </li>
-      </ul>
+      <nav class="navbar navbar-expand-lgnavbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" aria-current="page" href="/">UTNG MAPS</a>
+          <div class="d-flex">
+            <ul class="nav justify-content-end">
+              <li class="nav-item me-2">
+                <a class="nav-link active " aria-current="page" href="/signin">Signin</a>
+              </li>
+              <li class="nav-item me-2">
+                <a class="nav-link " href="/signup">Signup</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </div>
   </div>
 <% } else { %>
   <div class="row">
     <div class="col">
-      <ul class="nav justify-content-end navbar-dark bg-dark">
-        <li class="nav-item">
-          <a class="nav-link" href="/profile"><i class="fas fa-user" title="<%= user.email %>"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/logout"><i class="fas fa-sign-in"></i></a>
-        </li>
-      </ul>
+      <nav class="navbar navbar-expand-lgnavbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" aria-current="page" href="/home">UTNG MAPS</a>
+          <div class="d-flex">
+            <ul class="nav justify-content-end">
+              <li class="nav-item me-2">
+                <a class="nav-link" href="/profile"><i class="fas fa-user" title="<%= user.email %>"></i></a>
+              </li>
+              <li class="nav-item me-2">
+                <a class="nav-link active" aria-current="page" href="/logout"><i class="fas fa-sign-in"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </div>
   </div>
 <% } %>
 
-<%if (signinMessage) {%>
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Holy guacamole!</strong> <p><%= signinMessage %></p>
+<%if (signinMessage && signinMessage.length >0) {%>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Upss Ocurrio un problema!</strong> <%= signinMessage %>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   
 <% } %>
-<%if (signupMessage) {%>
-  <p><%= signupMessage %></p>
+<%if (signupMessage && signupMessage.length >0) {%>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Upss Ocurrio un problema!</strong> <%= signupMessage %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 <% } %>
 <div class="row">
   <div class="col"><%- body %></div>
